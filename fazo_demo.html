@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#11100e">
+<title>FAZO — Restaurant concept</title>
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f5f0e7,#11100e); --surface: light-dark(#fffaf1,#1a1815); --surface2: light-dark(#e9e0d2,#24211c); --text: light-dark(#211e19,#f6f0e5); --muted: light-dark(#756c60,#b9afa0); --line: light-dark(#d8cdbd,#39332b); --gold: #d6ad69; --gold2:#f0d8a8; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+button,input,select,textarea { font:inherit; }
+button,a { -webkit-tap-highlight-color:transparent; }
+a { color:inherit; text-decoration:none; }
+#app { min-height:100vh; background:var(--bg); border-radius:0; overflow:hidden; }
+.container { width:min(1160px,calc(100% - 44px)); margin:auto; }
+.announcement { text-align:center; padding:9px 16px; color:#ead9b9; background:#252019; font-size:11px; letter-spacing:.17em; text-transform:uppercase; }
+header { position:sticky; top:0; z-index:20; backdrop-filter:blur(18px); background:light-dark(rgba(245,240,231,.92),rgba(17,16,14,.92)); border-bottom:1px solid var(--line); }
+.nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.brand { display:flex; align-items:center; gap:12px; letter-spacing:.22em; font-size:21px; font-weight:750; }
+.brand-mark { width:35px; height:35px; display:grid; place-items:center; border:1px solid var(--gold); color:var(--gold); border-radius:50%; font-family:Georgia,serif; font-size:19px; letter-spacing:0; }
+.nav-links { display:flex; gap:28px; align-items:center; color:var(--muted); font-size:13px; }
+.nav-links a:hover { color:var(--gold); }
+.nav-actions { display:flex; gap:10px; align-items:center; }
+.btn { display:inline-flex; justify-content:center; align-items:center; gap:9px; padding:13px 18px; border:1px solid var(--gold); background:var(--gold); color:#21190d; border-radius:2px; font-size:12px; font-weight:750; letter-spacing:.06em; cursor:pointer; transition:transform .2s,background .2s; }
+.btn:hover { transform:translateY(-2px); background:var(--gold2); }
+.btn-outline { background:transparent; color:var(--text); border-color:var(--line); }
+.btn-outline:hover { border-color:var(--gold); background:transparent; }
+.menu-toggle { display:none; border:1px solid var(--line); background:transparent; color:var(--text); padding:9px 11px; }
+.hero { min-height:620px; display:grid; grid-template-columns:1.02fr .98fr; align-items:center; gap:48px; padding:78px 0 86px; }
+.eyebrow { display:flex; align-items:center; gap:12px; color:var(--gold); text-transform:uppercase; letter-spacing:.2em; font-size:10px; font-weight:800; }
+.eyebrow:before { content:""; width:32px; height:1px; background:var(--gold); }
+h1,h2,h3,p { margin-top:0; }
+h1 { font-family:Georgia,"Times New Roman",serif; font-weight:400; font-size:clamp(50px,6.7vw,88px); line-height:.98; letter-spacing:-.045em; margin:24px 0; }
+h1 em { color:var(--gold); font-weight:400; }
+.hero-copy { max-width:470px; color:var(--muted); line-height:1.8; font-size:15px; }
+.hero-ctas { display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; }
+.hero-meta { display:flex; gap:25px; margin-top:44px; padding-top:22px; border-top:1px solid var(--line); }
+.meta-item strong { display:block; color:var(--text); font-size:12px; margin-bottom:5px; }
+.meta-item span { color:var(--muted); font-size:11px; }
+.hero-art { min-height:455px; position:relative; display:grid; place-items:center; isolation:isolate; }
+.art-backdrop { position:absolute; inset:18px 12px 10px 38px; background:radial-gradient(ellipse at 48% 40%,#5b432b 0,#30271c 42%,#1a1713 76%); border:1px solid #51412b; overflow:hidden; }
+.art-backdrop:before { content:""; position:absolute; inset:0; opacity:.26; background:repeating-linear-gradient(115deg,transparent 0 18px,#c9a66a 19px,transparent 20px 43px); mask-image:linear-gradient(90deg,transparent,#000 35%,transparent); }
+.art-circle { position:absolute; width:min(74%,370px); aspect-ratio:1; border-radius:50%; border:1px solid rgba(231,202,153,.7); background:radial-gradient(circle at 50% 48%,#f1e4cb 0 37%,#d0c0a2 38% 41%,#f8f0df 42% 51%,#a38a64 52% 53%,#e9dec8 54% 59%,#5a4932 60% 61%,#181511 62%); box-shadow:0 25px 70px #0008; transform:rotate(-12deg); }
+.food-art { position:absolute; width:44%; aspect-ratio:1.18; border-radius:48% 52% 45% 55%; background:radial-gradient(ellipse at 32% 30%,#dba65b 0 9%,transparent 10%),radial-gradient(ellipse at 64% 27%,#a84726 0 11%,transparent 12%),radial-gradient(ellipse at 49% 61%,#8b3f20 0 13%,transparent 14%),radial-gradient(ellipse at 25% 66%,#47623b 0 9%,transparent 10%),radial-gradient(ellipse at 72% 65%,#d3a54d 0 10%,transparent 11%),radial-gradient(ellipse at 51% 45%,#70391e 0 37%,#3b281a 62%,transparent 64%); filter:drop-shadow(0 13px 9px #5d3d22); transform:rotate(18deg); }
+.art-label { position:absolute; bottom:4px; left:0; padding:17px 21px; background:var(--surface); border:1px solid var(--line); max-width:220px; box-shadow:0 14px 40px #0002; }
+.art-label span { color:var(--gold); font-size:9px; text-transform:uppercase; letter-spacing:.18em; }
+.art-label strong { display:block; margin-top:7px; font-family:Georgia,serif; font-size:21px; font-weight:400; }
+.art-stamp { position:absolute; top:3px; right:0; width:100px; height:100px; border:1px solid var(--gold); border-radius:50%; display:grid; place-items:center; text-align:center; color:var(--gold2); font-size:9px; letter-spacing:.17em; line-height:1.8; transform:rotate(12deg); }
+.section { padding:88px 0; }
+.section-head { display:flex; align-items:end; justify-content:space-between; gap:28px; margin-bottom:34px; }
+.section-kicker { color:var(--gold); font-size:10px; text-transform:uppercase; letter-spacing:.2em; font-weight:800; margin-bottom:14px; }
+h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; font-size:clamp(34px,4.5vw,55px); line-height:1.08; letter-spacing:-.03em; margin-bottom:0; }
+.section-intro { color:var(--muted); max-width:350px; line-height:1.7; font-size:13px; margin:0; }
+.menu-section { background:var(--surface2); }
+.tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
+.tab { border:1px solid var(--line); background:transparent; color:var(--muted); padding:10px 15px; cursor:pointer; font-size:11px; }
+.tab[aria-selected="true"] { background:var(--gold); border-color:var(--gold); color:#21190d; font-weight:750; }
+.menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.menu-card { border:1px solid var(--line); padding:22px; background:var(--surface); min-height:155px; display:flex; flex-direction:column; justify-content:space-between; }
+.menu-card-top { display:flex; justify-content:space-between; gap:12px; align-items:start; }
+.menu-card h3 { font-family:Georgia,serif; font-size:22px; font-weight:400; margin-bottom:8px; }
+.menu-card p { color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:18px; }
+.price { color:var(--gold); font-size:11px; white-space:nowrap; }
+.sample-note { color:var(--muted); font-size:10px; line-height:1.7; margin-top:18px; }
+.experience { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.experience-art { min-height:390px; position:relative; overflow:hidden; background:linear-gradient(140deg,#6a4c2f,#282016 56%,#14120f); border:1px solid #51412b; display:grid; place-items:center; }
+.window-lines { position:absolute; inset:0; background:repeating-linear-gradient(90deg,transparent 0 21%,#d3b47b22 21.3% 21.7%,transparent 22% 43%); }
+.glow { position:absolute; width:230px; height:300px; top:-90px; left:20%; border-radius:50%; background:#e2bd7655; filter:blur(55px); }
+.table-art { position:relative; width:64%; height:210px; border-radius:50%; background:radial-gradient(ellipse,#c9b38d 0 36%,#e9dec9 37% 43%,#6d5435 44% 47%,#2a2015 48%); transform:perspective(500px) rotateX(58deg) rotateZ(-8deg); box-shadow:0 70px 45px #0008; }
+.table-art:before { content:""; position:absolute; width:30%; height:30%; top:32%; left:35%; border-radius:50%; background:radial-gradient(circle,#a44d2b 0 18%,#4b6a3e 19% 27%,#d1a458 28% 44%,#78391f 45%); }
+.experience-content p { color:var(--muted); line-height:1.85; font-size:14px; margin:22px 0; }
+.feature-list { display:grid; gap:14px; margin:25px 0 30px; }
+.feature { display:flex; gap:13px; align-items:start; }
+.feature-icon { width:34px; height:34px; display:grid; place-items:center; border:1px solid var(--line); color:var(--gold); flex-shrink:0; }
+.feature strong { display:block; font-size:12px; margin-bottom:4px; }
+.feature span { color:var(--muted); font-size:11px; line-height:1.6; }
+.events { background:var(--surface2); }
+.event-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+.event-card { padding:26px; min-height:190px; border:1px solid var(--line); background:var(--surface); position:relative; overflow:hidden; }
+.event-number { color:var(--gold); font-family:Georgia,serif; font-size:38px; opacity:.8; }
+.event-card h3 { font-family:Georgia,serif; font-size:22px; font-weight:400; margin:20px 0 9px; }
+.event-card p { color:var(--muted); font-size:12px; line-height:1.65; margin:0; }
+.gallery-grid { display:grid; grid-template-columns:1.15fr .85fr .85fr; grid-template-rows:180px 180px; gap:12px; }
+.gallery-tile { position:relative; overflow:hidden; display:flex; align-items:end; padding:20px; background:linear-gradient(145deg,#4c3825,#201a13); border:1px solid #57432d; }
+.gallery-tile:nth-child(2) { background:linear-gradient(150deg,#7a5130,#302116 70%); }
+.gallery-tile:nth-child(3) { background:linear-gradient(130deg,#3b4a32,#171c15 72%); }
+.gallery-tile:nth-child(4) { background:linear-gradient(130deg,#594333,#221a13); grid-column:2 / 4; }
+.gallery-tile:before { content:""; position:absolute; width:190px; height:190px; right:-30px; top:-45px; border:1px solid #e0c38b66; border-radius:50%; box-shadow:0 0 0 16px #e0c38b0a,0 0 0 34px #e0c38b0a; }
+.gallery-tile:after { content:""; position:absolute; width:100px; height:100px; right:30px; top:18px; border-radius:50%; background:radial-gradient(circle,#b97d3e 0 15%,#5c301b 16% 33%,#c5a16a 34% 39%,#e9dec8 40% 46%,transparent 47%); opacity:.8; }
+.gallery-tile span { position:relative; z-index:1; font-family:Georgia,serif; font-size:23px; }
+.gallery-note { color:var(--muted); font-size:10px; line-height:1.7; margin-top:14px; }
+.reserve { padding:70px 0; background:#211b13; color:#f6f0e5; }
+.reserve-inner { display:flex; align-items:center; justify-content:space-between; gap:35px; }
+.reserve h2 { max-width:620px; }
+.reserve p { color:#c7bba7; font-size:13px; line-height:1.7; margin:17px 0 0; max-width:500px; }
+footer { padding:30px 0; background:#11100e; color:#b9afa0; }
+.footer-inner { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.footer-note { font-size:10px; line-height:1.7; }
+.footer-brand { color:#f6f0e5; font-weight:750; letter-spacing:.22em; }
+.modal-backdrop { display:none; position:fixed; inset:0; z-index:60; background:#000b; padding:20px; align-items:center; justify-content:center; }
+.modal-backdrop.open { display:flex; }
+.modal { width:min(480px,100%); max-height:90vh; overflow:auto; background:var(--surface); border:1px solid var(--line); padding:28px; box-shadow:0 30px 100px #0007; }
+.modal-head { display:flex; align-items:start; justify-content:space-between; gap:15px; }
+.modal h2 { font-size:32px; margin-bottom:10px; }
+.modal p { color:var(--muted); font-size:12px; line-height:1.7; }
+.close { border:1px solid var(--line); color:var(--text); background:transparent; padding:6px 10px; cursor:pointer; }
+.form-grid { display:grid; gap:13px; margin-top:20px; }
+label { display:grid; gap:7px; font-size:11px; color:var(--muted); }
+input,select,textarea { width:100%; padding:12px; border:1px solid var(--line); background:var(--bg); color:var(--text); border-radius:0; }
+.form-hint { font-size:10px !important; margin-top:13px !important; }
+#form-result { display:none; border:1px solid var(--gold); padding:12px; color:var(--text); margin-top:15px; font-size:12px; line-height:1.6; }
+.demo-ribbon { position:fixed; z-index:30; right:14px; bottom:14px; padding:9px 12px; background:#211b13; color:#ead9b9; border:1px solid #80673e; font-size:9px; letter-spacing:.09em; box-shadow:0 4px 18px #0003; }
+@media (max-width:800px) { .nav-links { display:none; position:absolute; top:76px; left:0; right:0; padding:20px 22px; background:var(--bg); border-bottom:1px solid var(--line); flex-direction:column; align-items:start; gap:18px; } .nav-links.open { display:flex; } .menu-toggle { display:block; } .nav-actions .btn { padding:11px 12px; } .hero { grid-template-columns:1fr; gap:35px; padding:58px 0 65px; } .hero-art { min-height:360px; } .art-circle { width:65%; } .section { padding:66px 0; } .experience { grid-template-columns:1fr; gap:32px; } .experience-art { min-height:320px; } .menu-grid { grid-template-columns:repeat(2,1fr); } .event-grid { grid-template-columns:1fr; } .event-card { min-height:150px; } .section-head { align-items:start; flex-direction:column; } .gallery-grid { grid-template-columns:1fr 1fr; grid-template-rows:160px 160px 160px; } .gallery-tile:first-child { grid-column:1 / 3; } .gallery-tile:nth-child(4) { grid-column:1 / 3; } .reserve-inner { align-items:start; flex-direction:column; } }
+@media (max-width:480px) { .container { width:calc(100% - 30px); } .announcement { font-size:9px; letter-spacing:.1em; } .brand { font-size:18px; } .nav-actions .btn { display:none; } .hero { min-height:0; } h1 { font-size:54px; } .hero-meta { gap:14px; } .meta-item span { font-size:10px; } .hero-art { min-height:310px; } .art-stamp { width:78px; height:78px; font-size:7px; } .art-label { max-width:180px; padding:13px 15px; } .menu-grid { grid-template-columns:1fr; } .menu-card { min-height:135px; } .gallery-grid { gap:8px; } .gallery-tile { padding:13px; } .gallery-tile span { font-size:19px; } .footer-inner { align-items:start; flex-direction:column; } .demo-ribbon { right:8px; bottom:8px; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="announcement">Namangan · Yaxshi ta’m, unutilmas lahzalar</div>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="FAZO bosh sahifa"><span class="brand-mark">F</span><span>FAZO</span></a>
+      <nav class="nav-links" id="navLinks" aria-label="Asosiy navigatsiya">
+        <a href="#about">Restoran</a><a href="#menu">Menyu</a><a href="#experience">Muhit</a><a href="#events">Tadbirlar</a><a href="#gallery">Galereya</a>
+      </nav>
+      <div class="nav-actions"><button class="btn" data-reserve>Stol band qilish <span>↗</span></button><button class="menu-toggle" id="menuToggle" aria-label="Menyuni ochish" aria-expanded="false">☰</button></div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="container hero" id="about">
+      <div>
+        <div class="eyebrow">FAZO Family Restaurant</div>
+        <h1>Ta’mda<br>san’at.<br><em>Damda huzur.</em></h1>
+        <p class="hero-copy">Yaqinlaringiz bilan unutilmas lahzalar, yoqimli suhbatlar va did bilan tayyorlangan taomlardan bahramand bo‘ling. FAZO — bir dasturxon atrofida jam bo‘lish uchun.</p>
+        <div class="hero-ctas"><button class="btn" data-reserve>Stol band qilish <span>↗</span></button><a class="btn btn-outline" href="#menu">Menyuni ko‘rish ↓</a></div>
+        <div class="hero-meta"><div class="meta-item"><strong>OILA VA DO‘STLAR</strong><span>Birga o‘tgan vaqt qadrlidir</span></div><div class="meta-item"><strong>MAXSUS LAHZALAR</strong><span>Bayram va uchrashuvlar</span></div></div>
+      </div>
+      <div class="hero-art" aria-label="Taomdan ilhomlangan dekorativ tasvir"><div class="art-backdrop"></div><div class="art-circle"></div><div class="food-art"></div><div class="art-stamp">TAM VA<br>MUHIT<br>• FAZO •</div><div class="art-label"><span>Har bir lahza o‘zgacha</span><strong>Dasturxon atrofida</strong></div></div>
+    </section>
+    <section class="menu-section section" id="menu">
+      <div class="container">
+        <div class="section-head"><div><div class="section-kicker">Menyudan tanlang</div><h2>Sevimli ta’mlaringiz</h2></div><p class="section-intro">Yaqinlaringiz bilan baham ko‘rishga arziydigan ta’mlar. Quyidagi taomlar hozircha demo uchun namunaviy.</p></div>
+        <div class="tabs" role="tablist" aria-label="Menyu toifalari"><button class="tab" role="tab" aria-selected="true" data-category="all">Barchasi</button><button class="tab" role="tab" aria-selected="false" data-category="main">Asosiy taomlar</button><button class="tab" role="tab" aria-selected="false" data-category="starter">Yengil taomlar</button><button class="tab" role="tab" aria-selected="false" data-category="dessert">Desertlar</button></div>
+        <div class="menu-grid" id="menuGrid">
+          <article class="menu-card" data-type="main"><div class="menu-card-top"><h3>Chef tanlovi</h3><span class="price">Narx aniqlanadi</span></div><p>Restoran oshpazining maxsus taomi uchun joy.</p></article>
+          <article class="menu-card" data-type="main"><div class="menu-card-top"><h3>Issiq taom</h3><span class="price">Narx aniqlanadi</span></div><p>Asosiy taomlar bo‘limi uchun namunaviy karta.</p></article>
+          <article class="menu-card" data-type="starter"><div class="menu-card-top"><h3>Yengil boshlanish</h3><span class="price">Narx aniqlanadi</span></div><p>Salatlar va yengil taomlar uchun namuna.</p></article>
+          <article class="menu-card" data-type="starter"><div class="menu-card-top"><h3>Dasturxon uchun</h3><span class="price">Narx aniqlanadi</span></div><p>Birga baham ko‘rishga mos tanlovlar.</p></article>
+          <article class="menu-card" data-type="dessert"><div class="menu-card-top"><h3>Shirin yakun</h3><span class="price">Narx aniqlanadi</span></div><p>Desertlar bo‘limi uchun namunaviy karta.</p></article>
+          <article class="menu-card" data-type="dessert"><div class="menu-card-top"><h3>Choy bilan</h3><span class="price">Narx aniqlanadi</span></div><p>Shirin suhbatlarga mos yengil tanlov.</p></article>
+        </div>
+        <p class="sample-note">Demo eslatmasi: taom nomlari, narxlar va tavsiflar FAZO’ning tasdiqlangan menyusi emas. Rasmiy menyu bilan almashtirilishi kerak.</p>
+      </div>
+    </section>
+    <section class="section" id="experience">
+      <div class="container experience">
+        <div class="experience-art" aria-label="Restoran muhiti uchun dekorativ konsept"><div class="window-lines"></div><div class="glow"></div><div class="table-art"></div></div>
+        <div class="experience-content"><div class="section-kicker">Faqat taom emas</div><h2>Uchrashuvlar uchun o‘ziga xos muhit</h2><p>Oilaviy kechki ovqat, do‘stlar bilan uchrashuv yoki alohida sana — har bir reja uchun kerakli ma’lumotni oldindan topish oson bo‘lsin.</p>
+          <div class="feature-list"><div class="feature"><div class="feature-icon">✦</div><div><strong>Oilaviy uchrashuvlar</strong><span>Yaqinlaringiz bilan birga o‘tkaziladigan vaqt uchun.</span></div></div><div class="feature"><div class="feature-icon">♫</div><div><strong>Maxsus oqshomlar</strong><span>Tadbirlar va jonli musiqa haqida yangiliklar uchun joy.</span></div></div><div class="feature"><div class="feature-icon">↗</div><div><strong>Oson bog‘lanish</strong><span>Stol band qilish va savollar uchun bitta aniq yo‘l.</span></div></div></div>
+          <button class="btn" data-reserve>Reja tuzishni boshlash <span>↗</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="events section" id="events">
+      <div class="container"><div class="section-head"><div><div class="section-kicker">Birga nishonlang</div><h2>Maxsus kunlar uchun</h2></div><p class="section-intro">Tadbirlar, bayramlar va jonli musiqa haqidagi yangiliklar uchun alohida bo‘lim.</p></div>
+        <div class="event-grid"><article class="event-card"><div class="event-number">01</div><h3>Oilaviy bayram</h3><p>Tug‘ilgan kun va yaqinlar davrasidagi quvonchli lahzalar.</p></article><article class="event-card"><div class="event-number">02</div><h3>Maxsus oqshom</h3><p>Jonli musiqa yoki rejalashtirilgan tadbirlar haqida ma’lumot.</p></article><article class="event-card"><div class="event-number">03</div><h3>Oldindan band qilish</h3><p>Rejangizni ayting — mavjud imkoniyatlarni restoran bilan aniqlashtiring.</p></article></div>
+      </div>
+    </section>
+    <section class="section" id="gallery"><div class="container"><div class="section-head"><div><div class="section-kicker">Muhitdan lavhalar</div><h2>FAZO lahzalari</h2></div><p class="section-intro">Bu joyga restoran tasdiqlagan haqiqiy interyer, taomlar va tadbirlar fotosuratlari qo‘yiladi.</p></div><div class="gallery-grid"><div class="gallery-tile"><span>Dasturxon</span></div><div class="gallery-tile"><span>Ta’mlar</span></div><div class="gallery-tile"><span>Muhit</span></div><div class="gallery-tile"><span>Unutilmas uchrashuvlar</span></div></div><p class="gallery-note">Bu dekorativ maket — haqiqiy FAZO fotosuratlari emas. Rasmiy tasvirlar bilan almashtirilgandan keyin nashr qilish kerak.</p></div></section>
+    <section class="reserve" id="reservation"><div class="container reserve-inner"><div><div class="section-kicker">Sizni kutamiz</div><h2>Keyingi uchrashuvingizni rejalashtiring.</h2><p>Stol band qilish bo‘yicha so‘rovingizni tayyorlang. Nashr qilingan saytda bu tugma FAZO tasdiqlagan telefon yoki messenjerga ulanadi.</p></div><button class="btn" data-reserve>Band qilish so‘rovini ochish <span>↗</span></button></div></section>
+  </main>
+  <footer><div class="container footer-inner"><div><div class="footer-brand">FAZO</div><div class="footer-note">Family Restaurant · Namangan</div></div><div class="footer-note">Veb-sayt konsepti · Rasmiy sayt emas<br>Ma’lumotlar va aloqa havolalari restoran tomonidan tasdiqlanishi kerak.</div><a href="#top" class="footer-note">Yuqoriga ↑</a></div></footer>
+  <div class="demo-ribbon">UNOFFICIAL CONCEPT · DEMO</div>
+</div>
+<div class="modal-backdrop" id="reserveModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal"><div class="modal-head"><div><div class="section-kicker">FAZO bilan bog‘lanish</div><h2 id="modalTitle">Stol band qilish</h2></div><button class="close" id="closeModal" aria-label="Yopish">✕</button></div><p>Bu faqat demo. So‘rov hech qayerga yuborilmaydi; haqiqiy saytda restoran tasdiqlagan aloqa usuliga ulanadi.</p><form id="reserveForm" class="form-grid"><label>Ismingiz<input name="name" required placeholder="Ismingiz"></label><label>Telefon raqamingiz<input name="phone" required type="tel" placeholder="+998 ..."></label><label>Mehmonlar soni<select name="guests"><option>2 kishi</option><option>3–4 kishi</option><option>5–6 kishi</option><option>7 yoki undan ko‘p</option></select></label><label>Qo‘shimcha izoh<textarea name="note" rows="2" placeholder="Sana, vaqt yoki istaklar"></textarea></label><button class="btn" type="submit">Demo so‘rovini ko‘rish ↗</button></form><div id="form-result" role="status"></div><p class="form-hint">Sayt konsepti: menyu, narxlar, ish vaqti, manzil va rezervatsiya ma’lumotlari FAZO tomonidan tasdiqlanishi shart.</p></div>
+</div>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+menuToggle.addEventListener('click', () => { const open = navLinks.classList.toggle('open'); menuToggle.setAttribute('aria-expanded', String(open)); menuToggle.textContent = open ? '✕' : '☰'; });
+navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { navLinks.classList.remove('open'); menuToggle.setAttribute('aria-expanded','false'); menuToggle.textContent = '☰'; }));
+document.querySelectorAll('[data-category]').forEach(tab => tab.addEventListener('click', () => { document.querySelectorAll('[data-category]').forEach(item => item.setAttribute('aria-selected', String(item === tab))); const category = tab.dataset.category; document.querySelectorAll('.menu-card').forEach(card => { card.hidden = category !== 'all' && card.dataset.type !== category; }); }));
+const modal = document.getElementById('reserveModal');
+const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+document.querySelectorAll('[data-reserve]').forEach(button => button.addEventListener('click', () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; document.getElementById('modalTitle').focus({preventScroll:true}); }));
+document.getElementById('closeModal').addEventListener('click', closeModal);
+modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
+document.getElementById('reserveForm').addEventListener('submit', event => { event.preventDefault(); const data = new FormData(event.currentTarget); const result = document.getElementById('form-result'); result.style.display = 'block'; result.textContent = `Demo tayyor: ${data.get('name')} nomidan ${data.get('guests')} uchun so‘rov. Bu ma’lumot yuborilmadi va saqlanmadi.`; });
+</script>
+</body>
+</html>
